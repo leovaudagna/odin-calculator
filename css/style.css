@@ -19,11 +19,10 @@ body {
 }
 
 /* Medium-only */
-@media screen and (max-width: 650px) {
-    #display {
-        background-color: red;
+@media only screen and (max-width: 600px) {
+    body {
+      width: 500px;
     }
-}
 
 #display {
     width: 500px;
@@ -78,8 +77,6 @@ button {
     border-radius: 55px;
     margin: 5px;
 }
-
-
 
 button:hover {
     filter: brightness(1.20);
