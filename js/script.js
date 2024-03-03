@@ -13,6 +13,7 @@ let equal = document.getElementById('equal');
 let clear = document.getElementById('clear');
 let plusMinus = document.getElementById('plus-minus');
 let porcentage = document.getElementById('porcentage');
+let error = document.getElementById('error');
 
 
 
@@ -29,26 +30,33 @@ let porcentage = document.getElementById('porcentage');
 //Event Listeners
 numbers.addEventListener('click', function(e){
     if (e.target.tagName == "BUTTON"){
+        
         let pressedButton = e.target.innerHTML;
         console.log(pressedButton);
-
-    if(operator == undefined){
-        firstNumber += pressedButton;
-        display.innerHTML = firstNumber;
-        console.log("FIRST NUMBER: " + firstNumber);
-    } else {
-        secondNumber += pressedButton;
-        display.innerHTML = secondNumber;
-        console.log("SECOND NUMBER: " + secondNumber);
+        error.style.visibility = 'hidden';
+        if(operator == undefined){
+            firstNumber += pressedButton;
+            display.innerHTML = firstNumber;
+            console.log("FIRST NUMBER: " + firstNumber);
+        } else {
+            secondNumber += pressedButton;
+            display.innerHTML = secondNumber;
+            console.log("SECOND NUMBER: " + secondNumber);
     }}
 });
 
 //clear
-clear.addEventListener('click', function(){
+function clearDisplay(e) {
     firstNumber = "";
     secondNumber = "";
     operator = undefined;
-    display.innerHTML = 0;
+    display.innerHTML = "";
+}
+
+clear.addEventListener('click', function(e){
+    if (e.target.tagName == "BUTTON"){
+        clearDisplay(e);
+    }
 });
 
 //Set operator
@@ -89,8 +97,14 @@ equal.addEventListener('click', function(){
                 operationResult = multiply(n1, n2);
                 break;
             case "÷":
-                operationResult = divide(n1, n2);
-                break;
+                if(n2 != 0){
+                    operationResult = divide(n1, n2);
+                    break;                                   
+                } else {
+                    error.style.visibility = 'visible';
+                    clearDisplay(clear);
+                    break;                  
+                }
         }
         
     display.innerHTML = operationResult;
@@ -111,7 +125,6 @@ plusMinus.addEventListener('click', function(e){
         
     }
 })
-
 
 
 //SET DISPLAY EMPTY FOR START
@@ -135,6 +148,5 @@ function multiply(a, b){
 
 function divide(a, b){
     result = a / b;
-
     return result.toFixed(7);
 }

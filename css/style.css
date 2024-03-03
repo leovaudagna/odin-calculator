@@ -21,8 +21,11 @@ body {
 /* Medium-only */
 @media only screen and (max-width: 600px) {
     body {
-      width: 500px;
+        display: flex;
+        justify-content: center;
+        width: 500px;
     }
+}
 
 #display {
     width: 500px;
@@ -32,6 +35,15 @@ body {
     font-size: 40px;
     margin-bottom: -30px;
     height: 200px;
+}
+
+#error {
+    margin: -35px -210px 10px 0;
+    align-items: end;
+    font-weight: 400;
+    font-size: 30px;
+    color: rgb(231, 47, 47);
+    visibility: hidden;
 }
 
 #calculator {
