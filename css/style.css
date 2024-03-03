@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+:root {
+    --black-color: rgb(15, 15, 15);
+}
+
+
+* {
+    font-family: 'Montserrat';
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--black-color);
+}
+
+#display {
+    width: 500px;
+    display: flex;
+    justify-content: flex-end;
+    color: white;
+    font-size: 40px;
+    margin-bottom: -30px;
+    height: 200px;
+}
+
+#calculator {
+    display: flex;
+    flex-direction: row;    
+    width: 500px;    
+}
+
+.first-row {
+    flex-grow: 2;
+    flex-shrink: 1;
+}
+
+#zero {
+    width: 235px;
+}
+
+#operators {
+    flex-shrink: 2;
+}
+
+#secondary-operators button {
+    background-color: rgb(167, 167, 167);
+    color: var(--black-color);
+    flex-wrap: nowrap;
+}
+
+#number-buttons button {
+    background-color: rgb(99, 99, 99);
+}
+
+#operators button {
+    background-color: rgb(250, 156, 15);
+}
+
+button {
+    border: none;
+    font-size: 40px;
+    font-weight: 600;
+    color: white;
+    height: 110px;
+    width: 110px;
+    border-radius: 55px;
+    margin: 5px;
+}
+
+
+
+button:hover {
+    filter: brightness(1.20);
+}
+
