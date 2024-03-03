@@ -1,6 +1,7 @@
 let firstNumber = "";
 let operator;
 let secondNumber = "";
+let errorCalculator = false;
 
 console.log(firstNumber);
 
@@ -34,9 +35,10 @@ numbers.addEventListener('click', function(e){
         let pressedButton = e.target.innerHTML;
         console.log(pressedButton);
         error.style.visibility = 'hidden';
-        if(operator == undefined){
+        if(operator == undefined || errorCalculator){
             firstNumber += pressedButton;
             display.innerHTML = firstNumber;
+            errorCalculator = false;
             console.log("FIRST NUMBER: " + firstNumber);
         } else {
             secondNumber += pressedButton;
@@ -97,17 +99,11 @@ equal.addEventListener('click', function(){
                 operationResult = multiply(n1, n2);
                 break;
             case "÷":
-                if(n2 != 0){
-                    operationResult = divide(n1, n2);
-                    break;                                   
-                } else {
-                    error.style.visibility = 'visible';
-                    clearDisplay(clear);
-                    break;                  
-                }
+                operationResult = divide(n1, n2);
+                break;
         }
-        
     display.innerHTML = operationResult;
+    console.log(operationResult);
     firstNumber = operationResult;
     secondNumber = "";
 }});
@@ -147,6 +143,11 @@ function multiply(a, b){
 }
 
 function divide(a, b){
-    result = a / b;
-    return result.toFixed(7);
+    if(n2 != 0){
+        return result = a / b;
+    } else {
+        error.style.visibility = 'visible';
+        errorCalculator = true;
+        return "";
+    }
 }
