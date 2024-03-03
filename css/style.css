@@ -18,6 +18,13 @@ body {
     background-color: var(--black-color);
 }
 
+/* Medium-only */
+@media screen and (max-width: 650px) {
+    #display {
+        background-color: red;
+    }
+}
+
 #display {
     width: 500px;
     display: flex;

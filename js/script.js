@@ -17,6 +17,7 @@ let porcentage = document.getElementById('porcentage');
 
 
 
+
 //OPERATORS
 
 //OTHER BUTTONS
@@ -55,6 +56,14 @@ operators.addEventListener('click', function(e){
     if (e.target.tagName == "BUTTON"){
         operator = e.target.innerHTML;
         console.log(operator);    
+}})
+
+porcentage.addEventListener('click', function(e){
+    if (e.target.tagName == "BUTTON"){
+        if(secondNumber == ""){
+            firstNumber /= 100;
+            display.innerHTML = firstNumber;  
+        }          
 }})
 
 //Perform the operation
