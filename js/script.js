@@ -2,9 +2,7 @@ let firstNumber = "";
 let operator;
 let secondNumber = "";
 let errorCalculator = false;
-
-console.log(firstNumber);
-
+let completedOperation = false;
 
 //DOM elements
 let display = document.querySelectorAll('h1')[0];
@@ -16,44 +14,11 @@ let plusMinus = document.getElementById('plus-minus');
 let porcentage = document.getElementById('porcentage');
 let error = document.getElementById('error');
 
-
-
-
-
-//OPERATORS
-
-//OTHER BUTTONS
-
-
-//NUMBERS
-
-
 //Event Listeners
+//NUMBERS
 numbers.addEventListener('click', function(e){
-    if (e.target.tagName == "BUTTON"){
-        
-        let pressedButton = e.target.innerHTML;
-        console.log(pressedButton);
-        error.style.visibility = 'hidden';
-        if(operator == undefined || errorCalculator){
-            firstNumber += pressedButton;
-            display.innerHTML = firstNumber;
-            errorCalculator = false;
-            console.log("FIRST NUMBER: " + firstNumber);
-        } else {
-            secondNumber += pressedButton;
-            display.innerHTML = secondNumber;
-            console.log("SECOND NUMBER: " + secondNumber);
-    }}
+    addNumber(e);    
 });
-
-//clear
-function clearDisplay(e) {
-    firstNumber = "";
-    secondNumber = "";
-    operator = undefined;
-    display.innerHTML = "";
-}
 
 clear.addEventListener('click', function(e){
     if (e.target.tagName == "BUTTON"){
@@ -61,12 +26,16 @@ clear.addEventListener('click', function(e){
     }
 });
 
+equal.addEventListener('click', function(){
+    console.log("EQUAL FUNCTION: n1: " + firstNumber + " . n2: " + secondNumber);
+    equalFunction();
+});
+
 //Set operator
 operators.addEventListener('click', function(e){
-    if (e.target.tagName == "BUTTON"){
-        operator = e.target.innerHTML;
-        console.log(operator);    
-}})
+    setOperator(e);
+    console.log(operator);
+})
 
 porcentage.addEventListener('click', function(e){
     if (e.target.tagName == "BUTTON"){
@@ -76,14 +45,16 @@ porcentage.addEventListener('click', function(e){
         }          
 }})
 
-//Perform the operation
-equal.addEventListener('click', function(){
 
+
+function equalFunction(){
     let operationResult = 0;
-
+    
     if(firstNumber != "" && secondNumber == ""){
         operationResult = firstNumber;
         firstNumber = operationResult;
+        completedOperation = false;
+
     } else if (firstNumber != "" && secondNumber != ""){
         n1 = Number.parseFloat(firstNumber);
         n2 = Number.parseFloat(secondNumber);
@@ -102,13 +73,65 @@ equal.addEventListener('click', function(){
                 operationResult = divide(n1, n2);
                 break;
         }
-    display.innerHTML = operationResult;
-    console.log(operationResult);
-    firstNumber = operationResult;
-    secondNumber = "";
-}});
+        display.innerHTML = operationResult;
+        firstNumber = operationResult;
+        secondNumber = "";
+        operator = undefined;
+        completedOperation = true;
+        console.log(
+            "- FIRST NUMBER: " + firstNumber +
+            "- SECOND NUMBER: " + secondNumber + 
+            "- OPERATION: " + operator 
+        );
+    }
+};
 
-//plus minus
+function clearDisplay(e) {
+    firstNumber = "";
+    secondNumber = "";
+    operator = undefined;
+    display.innerHTML = "0";
+}
+
+function addNumber(e){
+    if (e.target.tagName == "BUTTON"){
+        error.style.visibility = 'hidden';
+        let pressedButton = e.target.innerHTML;
+        console.log(pressedButton);
+        if (completedOperation){
+            // firstNumber = "";
+            secondNumber += pressedButton;
+            display.innerHTML = firstNumber;
+            // operator = undefined;
+            completedOperation = false;
+        } else if(operator == undefined || errorCalculator){
+            firstNumber += pressedButton;
+            display.innerHTML = firstNumber;
+            console.log("FIRST NUMBER: " + firstNumber);
+        } else if (operator != undefined){
+            secondNumber += pressedButton;
+            display.innerHTML = secondNumber;
+            console.log("SECOND NUMBER: " + secondNumber);
+        } else {
+            secondNumber = "";
+            firstNumber += pressedButton;
+            display.innerHTML = firstNumber;
+        }}
+        errorCalculator = false;
+}
+
+function setOperator(e){
+    if (e.target.tagName == "BUTTON"){
+        if(operator != undefined){
+            equalFunction();
+            operator = e.target.innerHTML;
+            // secondNumber = "";
+        } else if (e.target.id != 'equal'){
+            operator = e.target.innerHTML;
+        }
+}}
+
+//PLUS MINUS BUTTON
 plusMinus.addEventListener('click', function(e){
     if (e.target.tagName == "BUTTON"){
         if(secondNumber == ""){
@@ -129,7 +152,7 @@ if(firstNumber.length == 0){
 }
 
 
-//CALCULATOR FUNCTIONS
+//OPERATORS FUNCTIONS
 function add(a, b){    
     return a + b;
 }
@@ -144,7 +167,12 @@ function multiply(a, b){
 
 function divide(a, b){
     if(n2 != 0){
-        return result = a / b;
+        let result = a / b;
+        if(result == Math.floor(result)){
+            return Math.floor(result);
+        } else {
+            return result.toFixed(5);
+        }
     } else {
         error.style.visibility = 'visible';
         errorCalculator = true;
